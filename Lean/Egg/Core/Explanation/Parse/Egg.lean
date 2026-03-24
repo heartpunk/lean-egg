@@ -183,6 +183,11 @@ where
     set <| some { info with dir, pos? := pos : Rewrite.Info }
     go pos body
 
+def parseExprToLeanExpr (stx : TSyntax `egg_expr) (synthesize := false) : MetaM (Expr × Option Rewrite.Info) := do
+  match parseExpr stx with
+  | .error _ => throwError "egg: expression parse error"
+  | .ok (c, info?) => return (← c.toExpr (synthesize := synthesize), info?)
+
 def parseEggExpl : (TSyntax `egg_expl) → MetaM Explanation.Steps
   | `(egg_expl|$steps:egg_expr*) => do
     let some start := steps[0]? | throwError ParseError.noSteps

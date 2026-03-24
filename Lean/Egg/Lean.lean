@@ -17,7 +17,7 @@ partial def List.qsortM [Monad m] (comp : α → α → m Bool) [BEq α] : List 
 partial def String.lineCount (s : String) : Nat :=
   go 0 0
 where
-  go (pos : Pos) (count : Nat) : Nat :=
+  go (pos : _root_.String.Pos.Raw) (count : Nat) : Nat :=
     if s.atEnd pos then
       count
     else

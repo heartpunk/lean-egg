@@ -117,6 +117,9 @@ structure Result.Raw where
   report  : Report
 deriving Inhabited
 
+def Result.Raw.explanationKind? (raw : Result.Raw) : Option Explanation.Kind :=
+  raw.kind.toKind?
+
 @[extern "run_eqsat_request"]
 private opaque runRaw (req : Request) : MetaM Result.Raw
 
