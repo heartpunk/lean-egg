@@ -14,15 +14,8 @@ partial def List.qsortM [Monad m] (comp : α → α → m Bool) [BEq α] : List 
     let (fst, lst) ← xs.partitionM fun t => comp t x
     return (← fst.qsortM comp) ++ [x] ++ (← lst.qsortM comp)
 
-partial def String.lineCount (s : String) : Nat :=
-  go 0 0
-where
-  go (pos : _root_.String.Pos.Raw) (count : Nat) : Nat :=
-    if s.atEnd pos then
-      count
-    else
-      let inc := if (s.get pos) == '\n' then 1 else 0
-      go (s.next pos) (count + inc)
+def String.lineCount (s : String) : Nat :=
+  s.foldl (fun count c => if c == '\n' then count + 1 else count) 0
 
 namespace Std.HashMap
 
